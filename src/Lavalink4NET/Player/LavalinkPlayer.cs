@@ -4,7 +4,7 @@
  *
  *  The MIT License (MIT)
  *
- *  Copyright (c) Angelo Breuer 2019
+ *  Copyright (c) Angelo Breuer 2020
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -523,7 +523,10 @@ namespace Lavalink4NET.Player
             await LavalinkSocket.SendPayloadAsync(new VoiceUpdatePayload(_voiceState.GuildId,
                 _voiceState.VoiceSessionId, new VoiceServerUpdateEvent(_voiceServer)));
 
-            State = PlayerState.NotPlaying;
+            if (State == PlayerState.Destroyed)
+            {
+                State = PlayerState.NotPlaying;
+            }
 
             // trigger event
             await OnConnectedAsync(_voiceServer, _voiceState);
